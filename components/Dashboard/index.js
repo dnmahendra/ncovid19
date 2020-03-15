@@ -1,6 +1,7 @@
 import React from 'react';
 import { useQuery } from '@apollo/react-hooks'
 import { orderBy } from 'lodash'
+import numeral from 'numeral'
 // @material-ui/core
 import { makeStyles } from "@material-ui/core/styles";
 // @material-ui/icons
@@ -49,7 +50,7 @@ function Dashboard(props) {
                 <Accessibility />
               </CardIcon>
               <h3 className={classes.cardCategory}>Screened</h3>
-              <h1 className={classes.cardTitle}>{total_screened}</h1>
+              <h1 className={classes.cardTitle}>{numeral(total_screened).format('0,0')}</h1>
             </CardHeader>
             <CardFooter stats>
               <div className={classes.stats}>
@@ -66,7 +67,7 @@ function Dashboard(props) {
                 <LocalHospital />
               </CardIcon>
               <h2 className={classes.cardCategory}>Confirmed cases</h2>
-              <h1 className={classes.cardTitle}>{total_confirmed}</h1>
+              <h1 className={classes.cardTitle}>{numeral(total_confirmed).format('0,0')}</h1>
             </CardHeader>
             <CardFooter stats>
               <div className={classes.stats}>
@@ -83,7 +84,7 @@ function Dashboard(props) {
                 <CancelIcon />
               </CardIcon>
               <h2 className={classes.cardCategory}>Death</h2>
-              <h1 className={classes.cardTitle}>{total_deaths}</h1>
+              <h1 className={classes.cardTitle}>{numeral(total_deaths).format('0,0')}</h1>
             </CardHeader>
             <CardFooter stats>
               <div className={classes.stats}>
