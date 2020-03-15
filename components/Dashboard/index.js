@@ -1,20 +1,15 @@
 import React from 'react';
 import { useQuery } from '@apollo/react-hooks'
-
+import { orderBy } from 'lodash'
 // @material-ui/core
 import { makeStyles } from "@material-ui/core/styles";
 // @material-ui/icons
 import LocalHospital from "@material-ui/icons/LocalHospital";
-import Warning from "@material-ui/icons/Warning";
-import DateRange from "@material-ui/icons/DateRange";
-import LocalOffer from "@material-ui/icons/LocalOffer";
 import Update from "@material-ui/icons/Update";
-import ArrowUpward from "@material-ui/icons/ArrowUpward";
 import AccessTime from "@material-ui/icons/AccessTime";
 import Accessibility from "@material-ui/icons/Accessibility";
-import BugReport from "@material-ui/icons/BugReport";
-import Code from "@material-ui/icons/Code";
-import Cloud from "@material-ui/icons/Cloud";
+import SentimentVeryDissatisfiedIcon from '@material-ui/icons/SentimentVeryDissatisfied';
+import CancelIcon from '@material-ui/icons/Cancel';
 // core components
 import GridItem from "components/Grid/GridItem.js";
 import GridContainer from "components/Grid/GridContainer.js";
@@ -33,17 +28,21 @@ const useStyles = makeStyles(styles);
 
 function Dashboard(props) {
   const classes = useStyles()
-  const { date, total_screened, total_confirmed } = props.summary
+  const { date, total_screened, total_confirmed, total_deaths } = props.summary
 
   const { loading, data, error } = useQuery(GET_COVID_STATS)
 
   if (error || (loading && !data)) return null
   const { covid_stats } = data
 
+  const stats = orderBy(covid_stats,
+    [function (item) { return item.confirmed_local + item.confirmed_overseas }],
+    ['desc']
+  )
   return (
     <div>
       <GridContainer>
-        <GridItem xs={12} sm={6} md={6}>
+        <GridItem xs={12} sm={12} md={4}>
           <Card>
             <CardHeader color="info" stats icon>
               <CardIcon color="info">
@@ -60,14 +59,31 @@ function Dashboard(props) {
             </CardFooter>
           </Card>
         </GridItem>
-        <GridItem xs={12} sm={6} md={6}>
+        <GridItem xs={12} sm={12} md={4}>
           <Card>
-            <CardHeader color="danger" stats icon>
-              <CardIcon color="danger">
+            <CardHeader color="warning" stats icon>
+              <CardIcon color="warning">
                 <LocalHospital />
               </CardIcon>
               <h2 className={classes.cardCategory}>Confirmed cases</h2>
               <h1 className={classes.cardTitle}>{total_confirmed}</h1>
+            </CardHeader>
+            <CardFooter stats>
+              <div className={classes.stats}>
+                <AccessTime />
+                updated - {date}
+              </div>
+            </CardFooter>
+          </Card>
+        </GridItem>
+        <GridItem xs={12} sm={12} md={4}>
+          <Card>
+            <CardHeader color="danger" stats icon>
+              <CardIcon color="danger">
+                <CancelIcon />
+              </CardIcon>
+              <h2 className={classes.cardCategory}>Death</h2>
+              <h1 className={classes.cardTitle}>{total_deaths}</h1>
             </CardHeader>
             <CardFooter stats>
               <div className={classes.stats}>
@@ -91,7 +107,7 @@ function Dashboard(props) {
               <Table
                 tableHeaderColor="danger"
                 tableHead={["ID", "State", "Confirmed Indian National", "Confirmed Overseas", "Recovered", "Death"]}
-                tableData={covid_stats}
+                tableData={stats}
               />
             </CardBody>
           </Card>

@@ -6,6 +6,7 @@ const GET_COVID_SUMMARY = gql`
       date
       total_screened
       total_confirmed
+      total_deaths
     }
   }
 `

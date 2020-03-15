@@ -30,7 +30,7 @@ export default function Header(props) {
       <AppBar position="static">
         <Toolbar>
           <Typography variant="h6" className={classes.title}>
-            Covid-19 Updates - {date}
+            Covid-19 India Updates - {date}
           </Typography>
           <IconButton
             edge="start"
