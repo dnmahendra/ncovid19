@@ -1,46 +1,23 @@
 import React from 'react'
-import styled from 'styled-components'
-import { makeStyles } from '@material-ui/core/styles'
-import Grid from '@material-ui/core/Grid'
-import TextField from '@material-ui/core/TextField'
-import Button from '@material-ui/core/Button'
-import { useQuery } from 'react-apollo'
+import { useQuery } from '@apollo/react-hooks'
 
 import { withApollo } from '../lib/withApollo'
-
-const useStyles = makeStyles(theme => ({
-  root: {
-    '& .MuiTextField-root': {
-      margin: theme.spacing(1),
-      width: 200,
-    },
-  },
-}))
-
-const Container = styled.div`
-  width: 960px;
-  height: 100vh;
-  margin: 2rem auto;
-  padding: 2rem;
-  background: #f2f2f2;
-`
+import Header from 'components/Navbar'
+import Dashboard from 'components/Dashboard'
+import GET_COVID_SUMMARY from 'queries/summary'
 
 const Home = () => {
-  const classes = useStyles()
+  const { loading, data, error } = useQuery(GET_COVID_SUMMARY)
+
+  if (error || (loading && !data)) return null
+  const { covid_totals } = data
+  const summary = covid_totals[0]
 
   return (
-    <Container>
-      <form className={classes.root} noValidate autoComplete="off">
-        <Grid
-          container
-          direction="column"
-          justify="center"
-          alignItems="center"
-        >
-          <div>nCovid-19 updates</div>
-        </Grid>
-      </form>
-    </Container>
+    <div>
+      <Header date={summary.date} />
+      <Dashboard summary={summary}  />
+    </div>
   )
 }
 
