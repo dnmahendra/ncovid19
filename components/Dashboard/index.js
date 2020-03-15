@@ -1,11 +1,8 @@
 import React from 'react';
 import { useQuery } from '@apollo/react-hooks'
 
-// react plugin for creating charts
-import ChartistGraph from "react-chartist";
 // @material-ui/core
 import { makeStyles } from "@material-ui/core/styles";
-import Icon from "@material-ui/core/Icon";
 // @material-ui/icons
 import LocalHospital from "@material-ui/icons/LocalHospital";
 import Warning from "@material-ui/icons/Warning";

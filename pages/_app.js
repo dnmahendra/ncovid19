@@ -3,6 +3,7 @@ import React from 'react'
 import NextApp from 'next/app'
 import { ThemeProvider } from 'styled-components'
 
+import { GlobalStyles } from 'styles/globalStyles'
 const theme = {
   primary: 'green',
 }
@@ -21,6 +22,7 @@ class App extends NextApp {
 
     return (
       <ThemeProvider theme={theme}>
+        <GlobalStyles />
         <Component {...pageProps} />
       </ThemeProvider>
     )
